@@ -1,0 +1,96 @@
+<nz-table #basicTable [nzData]="employeeList" [nzFrontPagination]="false" [nzTotal]="total" [(nzPageIndex)]="curPage" [nzPageSize]="pageSize" (nzPageIndexChange)="fetchData()" [nzLoading]="isLoading">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Join Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--Here employeeList make upate work, basicTable.data did not make update work -->
+        <tr *ngFor="let data of employeeList; let i=index; trackBy: trackByEmpId">
+            <td>{{ i}}</td>
+            <td>{{ data.attributes.name}}</td>
+            <td>{{ data.attributes.gender==='1'?'Male':'Female' }}</td>
+            <td>{{ data.attributes.phone }}</td>
+            <td>{{ data.attributes.email }}</td>
+            <td>{{ data.attributes.join_date | date:"yyyy-MM-dd" }}</td>
+            <td>
+                <a (click)="showEditEmpModal(data.id)">Action 一 Modify</a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this employee?" (nzOnConfirm)="handleDelete(data.id)" (nzOnCancel)="handleDelCancel()" nzPopconfirmPlacement="bottom">Delete</a>
+
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+
+<nz-modal [(nzVisible)]="isShowEmpModal" nzTitle="Employee Modification" (nzOnCancel)="handleEditEmpCancel()" (nzOnOk)="handleEditEmpOk()">
+    <ng-container *nzModalContent>
+        <form nz-form [formGroup]="employeeEditForm">
+            <!-- Username -->
+            <nz-form-item>
+                <nz-form-label [nzSpan]="7" nzRequired>Username</nz-form-label>
+                <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+                    <input nz-input formControlName="name" placeholder="Enter username" />
+                    <ng-template #userErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">Name is required!</ng-container>
+                        <ng-container *ngIf="control.hasError('minlength')">Name length is at least 2 digits!</ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+            <!-- Gender -->
+            <nz-form-item>
+                <nz-form-label [nzSpan]="7" nzRequired>Gender</nz-form-label>
+                <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="genderErrorTpl">
+                    <nz-radio-group formControlName="gender">
+                        <label nz-radio nzValue="1">Male</label>
+                        <label nz-radio nzValue="0">Female</label>
+                    </nz-radio-group>
+                    <ng-template #genderErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">Gender is required!</ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+            <!-- Email -->
+            <nz-form-item>
+                <nz-form-label [nzSpan]="7" nzRequired>Email</nz-form-label>
+                <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
+                    <input nz-input formControlName="email" placeholder="email" type="email" />
+                    <ng-template #emailErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('email')">The input is not valid E-mail!</ng-container>
+                        <ng-container *ngIf="control.hasError('required')">Email is required!</ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+            <!-- Phone number -->
+            <nz-form-item>
+                <nz-form-label [nzSpan]="7">Phone</nz-form-label>
+                <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="phoneErrorTpl" nzErrorTip="Enter phone number!">
+                    <!-- (ngModelChange)="validateConfirmPassword() -->
+                    <input nz-input formControlName="phone" placeholder="Phone number" />
+                    <ng-template #phoneErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('pattern')">Phone number is NOT valid</ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+
+            <!-- Join date -->
+            <nz-form-item>
+                <nz-form-label [nzSpan]="7">Join Date</nz-form-label>
+                <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="joinDateErrorTpl">
+                    <nz-date-picker formControlName="join_date" nzFormat="yyyy/MM/dd" [nzSize]="size"></nz-date-picker>
+
+                    <ng-template #joinDateErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('date')">Join date is larger than today</ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+
+        </form>
+    </ng-container>
+</nz-modal>

@@ -1,0 +1,70 @@
+<nz-layout>
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+        <div class="logo">
+            <img class="logoPic" src="/assets/imgs/logo2.PNG">
+        </div>
+        <ul nz-menu nzTheme="dark" nzMode="inline">
+            <li nz-submenu nzTitle="Admin" nzIcon="user">
+                <ul>
+                    <li nz-menu-item routerLink="/home/employee">List</li>
+                    <li nz-menu-item routerLink="/home/employee/add">Add Emp</li>
+                </ul>
+            </li>
+
+            <li nz-submenu nzTitle="Role" nzIcon="smile">
+                <ul>
+                    <li nz-menu-item>List</li>
+                    <li nz-menu-item>Add Role</li>
+                </ul>
+            </li>
+
+            <li nz-submenu nzTitle="Auth" nzIcon="lock">
+                <ul>
+                    <li nz-menu-item>List</li>
+                </ul>
+            </li>
+        </ul>
+    </nz-sider>
+    <nz-layout>
+        <nz-header>
+            <div nz-row>
+                <div nz-col nzSpan="4">
+                    <!-- <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" (click)="isCollapsed = !isCollapsed">
+
+                    </span> -->
+                </div>
+                <div nz-col nzSpan="16"></div>
+                <div nz-col nzSpan="4" class="parent">
+                    <nz-avatar nzIcon="user" nzSrc="/assets/imgs/avatar.png"></nz-avatar>
+                    <span class="son">
+                    <span nz-icon nzType="logout" nzTheme="outline"></span>&nbsp;
+                    <a href="#" nz-popconfirm nzPopconfirmTitle="Are you sure to Logout?" (nzOnConfirm)="logout($event)">Exit</a>
+                    <!-- <button 
+                        nz-popconfirm 
+                        nzPopconfirmTitle="Are you sure to Logout?" 
+                        (nzOnConfirm)="confirm()" 
+                        nzPopconfirmPlacement="bottom" nz-button>
+                            Bottom
+                    </button> -->
+
+                    </span>
+
+                </div>
+            </div>
+            <!-- <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" (click)="isCollapsed = !isCollapsed"></span>
+            <nz-avatar nzIcon="user" nzSrc="/assets/imgs/avatar.png"></nz-avatar> -->
+        </nz-header>
+        <nz-content>
+            <nz-breadcrumb>
+                <!-- <nz-breadcrumb-item>User</nz-breadcrumb-item>
+                <nz-breadcrumb-item>Bill</nz-breadcrumb-item> -->
+            </nz-breadcrumb>
+            <div class="inner-content">
+                <!-- 子路由的出口，用来加载员工管理模块 -->
+                <router-outlet></router-outlet>
+
+            </div>
+        </nz-content>
+        <nz-footer>Employee Admin System</nz-footer>
+    </nz-layout>
+</nz-layout>

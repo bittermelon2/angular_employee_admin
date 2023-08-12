@@ -1,0 +1,68 @@
+<form nz-form [formGroup]="employeeAddForm" (ngSubmit)="submitForm($event)">
+    <!-- Username -->
+    <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>Username</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+            <input nz-input formControlName="name" placeholder="Enter username" />
+            <ng-template #userErrorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">Name is required!</ng-container>
+                <ng-container *ngIf="control.hasError('minlength')">Name length is at least 2 digits!</ng-container>
+            </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+    <!-- Gender -->
+    <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>Gender</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="genderErrorTpl">
+            <nz-radio-group formControlName="gender">
+                <label nz-radio nzValue="1">Male</label>
+                <label nz-radio nzValue="0">Female</label>
+            </nz-radio-group>
+            <ng-template #genderErrorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">Gender is required!</ng-container>
+            </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+    <!-- Email -->
+    <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>Email</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
+            <input nz-input formControlName="email" placeholder="email" type="email" />
+            <ng-template #emailErrorTpl let-control>
+                <ng-container *ngIf="control.hasError('email')">The input is not valid E-mail!</ng-container>
+                <ng-container *ngIf="control.hasError('required')">Email is required!</ng-container>
+            </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+    <!-- Phone number -->
+    <nz-form-item>
+        <nz-form-label [nzSpan]="7">Phone</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="phoneErrorTpl" nzErrorTip="Enter phone number!">
+            <!-- (ngModelChange)="validateConfirmPassword() -->
+            <input nz-input formControlName="phone" placeholder="Phone number" />
+            <ng-template #phoneErrorTpl let-control>
+                <ng-container *ngIf="control.hasError('pattern')">Phone number is NOT valid</ng-container>
+            </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+
+    <!-- Join date -->
+    <nz-form-item>
+        <nz-form-label [nzSpan]="7">Join Date</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="joinDateErrorTpl">
+            <nz-date-picker formControlName="join_date" nzFormat="yyyy-MM-dd" [nzSize]="size"></nz-date-picker>
+
+            <ng-template #joinDateErrorTpl let-control>
+                <ng-container *ngIf="control.hasError('date')">Join date is larger than today</ng-container>
+            </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+
+    <!-- Add Button -->
+    <nz-form-item>
+        <nz-form-control [nzOffset]="7" [nzSpan]="12">
+            <button nz-button nzType="primary" [disabled]="!employeeAddForm.valid">Add</button>
+            <button nz-button (click)="resetForm($event)">Reset</button>
+        </nz-form-control>
+    </nz-form-item>
+</form>
